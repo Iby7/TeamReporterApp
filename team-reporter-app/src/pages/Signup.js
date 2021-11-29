@@ -1,4 +1,5 @@
 import { Form, Input, Button} from 'antd';
+import {Link} from 'react-router-dom'
 import "./Styles.css"
 
 function Signup() {
@@ -37,6 +38,9 @@ function Signup() {
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">
           Sign Up
+        </Button>
+        <Button type="primary" htmlType="submit">
+        <Link to="/">You have already account?</Link>
         </Button>
       </Form.Item>
     </Form>
