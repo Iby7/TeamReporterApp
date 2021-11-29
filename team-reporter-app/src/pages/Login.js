@@ -1,5 +1,7 @@
 import { Form, Input, Button, Checkbox } from 'antd';
-import "./Styles.css";
+import {Link} from 'react-router-dom'
+
+// import "./Styles.css";
 
 function Login() {
     return (
@@ -34,6 +36,9 @@ function Login() {
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" htmlType="submit">
           Login
+        </Button>
+        <Button type="primary" htmlType="submit">
+        <Link to="/Signup">Sign Up</Link>
         </Button>
       </Form.Item>
     </Form>
