@@ -1,9 +1,31 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Modal } from 'antd';
 import {Link} from 'react-router-dom'
+import { signOut, onAuthStateChanged, signInWithEmailAndPassword } from '@firebase/auth';
+import { auth } from '../firebase';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-function Login() {
+const Login = () => {
+  const navigate = useNavigate();
+  const [curUser, setCurUser] = useState();
+  const [modal, setModal] = useState(false);
+  const [modalMes, setModalMes] = useState("");
+
+  onAuthStateChanged(auth, (currentUser) => setCurUser(currentUser));
+
+  const onFinish = async ({ password, email }) => {
+      try {
+          const user = await signInWithEmailAndPassword(auth, email, password);
+          navigate('home');
+      } catch (error) {
+          setModalMes(error.message);
+          setModal(true);
+      }
+  };
+
+  const logOut = async () => await signOut(auth);
+
     return (
-
         <div className="form">
             <Form
       name="basic"
@@ -11,7 +33,12 @@ function Login() {
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true }}
       autoComplete="off"
+      onFinish={onFinish}
     >
+      <Modal title="Basic Modal" visible={modal} onOk={() => setModal(false)} onCancel={() => setModal(false)}>
+                {modalMes}
+            </Modal>
+            <button onClick={logOut}>{curUser?.email}</button>
       <div className="heading"><h1>Login</h1></div>
        <Form.Item
         label="Email"

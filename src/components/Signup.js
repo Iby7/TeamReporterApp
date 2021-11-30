@@ -1,7 +1,25 @@
-import { Form, Input, Button} from 'antd';
-import {Link} from 'react-router-dom'
+import { Form, Input, Button, Checkbox } from 'antd';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { createUserWithEmailAndPassword, onAuthStateChanged } from '@firebase/auth';
+import { auth } from '../firebase';
 
-function Signup() {
+
+
+
+const Signup = () => {
+  // const [curUser, setCurUser] = useState();
+  // onAuthStateChanged(auth, (currentUser) => console.log(currentUser.email));
+
+  const onFinish = async ({ password, email }) => {
+      try {
+          const user = await createUserWithEmailAndPassword(auth, email, password);
+          console.log(user);
+          alert("Account created successfully.")
+      } catch (error) {
+          console.log(error.message);
+      }
+  };
     return (
         <div className="form">
             <Form
@@ -10,6 +28,8 @@ function Signup() {
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true }}
       autoComplete="off"
+      onFinish={onFinish}
+
     >
         <div className="heading"><h1>Signup</h1></div>
       <Form.Item
